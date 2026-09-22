@@ -1,0 +1,5 @@
+/node_modules
+/package-lock.json
+/build
+/dist
+/packages/glfw-3.4.bin.WIN64/docs
