@@ -15,7 +15,6 @@ Capture your VTuber model with **Spout2**, communicate through **WebRTC**, and s
 * 🔄 Socket.IO room synchronization
 * 🪑 Shared props
 * 🖼️ Shared room backgrounds
-* 🎨 Chroma key and avatar cropping
 * 🔐 Password-protected rooms
 * 🖥️ Simple streaming workflow
 
@@ -133,27 +132,12 @@ VTogether will prompt you to select or upload a background image.
 
 The selected background is synchronized with the other participants.
 
-### 8. Chroma Key and Crop
-
-VTogether also supports processing the captured avatar:
-
-* **Chroma Key** — Remove a background color from the avatar.
-* **Crop** — Crop the captured avatar area.
-
-These options can be configured before creating or joining a room.
-
-### 9. Leave or Reload the Room
+### 8. Leave or Reload the Room
 
 To leave the current room or reload the application page, press:
 
 ```text
 Ctrl + R
-```
-
-or:
-
-```text
-F5
 ```
 
 This reloads the VTogether page and allows you to return to the host/join screen.
