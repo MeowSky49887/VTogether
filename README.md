@@ -1,4 +1,3 @@
-
 # VTogether
 
 > **A new way to collab between 2D and 3D VTubers.**
@@ -21,106 +20,102 @@ Capture your VTuber model with **Spout2**, communicate through **WebRTC**, and s
 ## How It Works
 
 ```text
-VTuber App
-    │
-  Spout2
-    ▼
-VTogether ◄──── WebRTC ────► VTogether
-    │                           │
-    └────── Socket.IO ──────────┘
-              │
-        Shared Room
-        • Background
-        • Props
-        • Scene
-        • Password
-              │
-       Window Capture
-              ▼
-             OBS
+                         VTuber App
+                              │
+                           Spout2
+                              ▼
+                         ┌─────────┐
+                         │VTogether│
+                         └────┬────┘
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+                 WebRTC             Socket.IO
+                    │                   │
+                    │                   ▼
+                    │             ┌───────────┐
+                    │             │   Room    │
+                    │             │  Control  │
+                    │             └───────────┘
+                    │                   │
+                    ▼                   │
+              ┌─────────────┐           │
+              │   Shared    │           │
+              │    Scene    │           │
+              ├─────────────┤           │
+              │ Background  │           │
+              │ Props       │           │
+              │ Avatars     │           │
+              │ Scene State │           │
+              └──────┬──────┘           │
+                     │                  │
+                     ▼                  │
+               ┌───────────┐            │
+               │ VTogether │◄───────────┘ 
+               └─────┬─────┘
+                     │
+                     │ Spout2 Capture
+                     ▼
+                    OBS
 ```
 
-## How to Use
+## How to Use VTogether
 
-### 1. Start the Application
-
-The host needs to start VTogether with a port specified through the command line.
-
-```bash
-VTogether.exe --port <PORT>
-```
-
-The host's IP address and port will be used as the room URL.
-
-For example:
-
-```text
-http://192.168.1.100:8080
-```
-
-### 2. Host a Room
+### 1. Host a Room
 
 The host should:
 
-1. Find their local IP address.
-2. Start VTogether with the desired port.
-3. Select **Host** to create the collaboration room.
-4. Optionally set a **password** to protect the room.
+1. Enter a unique **Room ID**.
+2. Select **Join** to create the collaboration room.
+3. If the Room ID does not already exist, a new room will be created automatically.
+4. Optionally, set a **password** to protect the room.
 
-Other users must be connected to the **same LAN or virtual LAN** as the host.
+### 2. Join a Room
 
-### 3. Join a Room
+Other participants can join the room by:
 
-Other participants can enter the host's IP address and port:
+1. Entering the host's **Room ID**.
+2. If the room is password-protected, entering the password provided by the host.
+3. Selecting **Join**.
 
-```text
-http://192.168.1.100:8080
-```
+### 3. Enter the Collaboration Scene
 
-If the room is password-protected, enter the password provided by the host.
+After hosting or joining a room, VTogether will open the shared collaboration scene.
 
-Then select **Join**.
+Your avatar and the avatars of other participants will appear in the room. Changes made within the room are synchronized with all participants.
 
-> The host and all participants must be connected to the same local network or virtual LAN.
+### 4. Control Your Avatar
 
-### 4. Enter the Collaboration Scene
+You can control your avatar using the mouse:
 
-After hosting or joining, VTogether will open the shared collaboration scene.
-
-Your avatar and other participants' avatars will appear in the room.
-
-### 5. Control Your Avatar
-
-You can control your own avatar with the mouse:
-
-| Action | Control               |
-| ------ | --------------------- |
-| Move   | Left-click and drag   |
-| Scale  | Mouse wheel           |
+| Action | Control             |
+| ------ | ------------------- |
+| Move   | Left-click and drag |
+| Scale  | Mouse wheel         |
 | Rotate | `Alt` + mouse wheel |
-| Lock   | Right-click           |
-| Unlock | Right-click again     |
+| Lock   | Right-click         |
+| Unlock | Right-click again   |
 
-The avatar's position and other room changes are synchronized with other participants.
+Your avatar's position and other changes are synchronized with all participants in the room.
 
-### 6. Add Props
+### 5. Add Props
 
 You can add images as props by **dragging and dropping a PNG file** into VTogether.
 
-Once added, the image can be controlled like an avatar:
+Once added, props can be controlled in the same way as avatars:
 
-| Action | Control               |
-| ------ | --------------------- |
-| Move   | Left-click and drag   |
-| Scale  | Mouse wheel           |
+| Action | Control             |
+| ------ | ------------------- |
+| Move   | Left-click and drag |
+| Scale  | Mouse wheel         |
 | Rotate | `Alt` + mouse wheel |
-| Lock   | Right-click           |
-| Unlock | Right-click again     |
+| Lock   | Right-click         |
+| Unlock | Right-click again   |
 | Delete | `Alt` + Right-click |
 
-Props are synchronized with everyone in the room.
+Props are automatically synchronized with everyone in the room.
 
-### 7. Change the Background
+### 6. Change the Background
 
 Press:
 
@@ -130,9 +125,9 @@ Ctrl + \
 
 VTogether will prompt you to select or upload a background image.
 
-The selected background is synchronized with the other participants.
+Once selected, the new background will be synchronized with all participants in the room.
 
-### 8. Leave or Reload the Room
+### 7. Leave or Reload the Room
 
 To leave the current room or reload the application page, press:
 
@@ -140,7 +135,7 @@ To leave the current room or reload the application page, press:
 Ctrl + R
 ```
 
-This reloads the VTogether page and allows you to return to the host/join screen.
+This will reload VTogether and return you to the **Host/Join** screen, where you can create or join a room again.
 
 ## Requirements
 
@@ -148,14 +143,13 @@ This reloads the VTogether page and allows you to return to the host/join screen
 * VTuber software with Spout2 support
 * VTogether
 * Network connection
-* Same LAN or virtual LAN as the host
 * Streaming software such as OBS Studio
 
 ## Streaming
 
 VTogether is designed to work with existing streaming software.
 
-Simply capture the VTogether window using **Window Capture** or **Display Capture**.
+Simply capture the VTogether window using **Spout2 Capture**.
 
 ```text
 VTuber Software

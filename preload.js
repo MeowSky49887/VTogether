@@ -8,4 +8,44 @@ contextBridge.exposeInMainWorld(
     spout
 );
 
-contextBridge.exposeInMainWorld('ownedURL', () => ipcRenderer.invoke('ownedURL'));
+contextBridge.exposeInMainWorld(
+    "electronAPI",
+    {
+
+        // ================================
+        // Start Spout
+        // ================================
+
+        startSpout: () => {
+
+            return ipcRenderer.invoke(
+                "spout:start"
+            );
+        },
+
+
+        // ================================
+        // Stop Spout
+        // ================================
+
+        stopSpout: () => {
+
+            return ipcRenderer.invoke(
+                "spout:stop"
+            );
+        },
+
+
+        // ================================
+        // Status
+        // ================================
+
+        getSpoutStatus: () => {
+
+            return ipcRenderer.invoke(
+                "spout:status"
+            );
+        }
+
+    }
+);
