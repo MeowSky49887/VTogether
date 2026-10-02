@@ -1,6 +1,6 @@
 {
   "name": "vtogether",
-  "version": "2026.7.1",
+  "version": "2026.10.1",
   "description": "A new way to collab between 2D and 3D VTuber. (Based on MeowVerser-Collab)",
   "main": "server.js",
   "author": "MeowSkyKung",
@@ -10,14 +10,16 @@
     "electron": "^43.1.1",
     "node-addon-api": "^8.9.0",
     "node-gyp": "^13.0.1"
-  },  
+  },
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "socket.io": "^4.8.3"
   },
   "scripts": {
     "start": "electron .",
+    "start-alt": "electron . --port 3000",
     "dev": "node-gyp rebuild && electron .",
     "build": "node-gyp rebuild && powershell -ExecutionPolicy Bypass -File ./build.ps1"
   }

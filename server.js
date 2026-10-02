@@ -1,6 +1,7 @@
 const { BrowserWindow, app, ipcMain, globalShortcut } = require('electron');
 const path = require('path');
 const express = require("express");
+const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 const fs = require("fs");
@@ -17,6 +18,8 @@ const sceneFile = path.join(
 console.log(exeDir);
 
 const web = express();
+web.use(cors());
+
 const server = http.createServer(web);
 
 const io = new Server(server, {
@@ -39,7 +42,6 @@ const rooms = {};
 const roomTransforms = {};
 const roomImages = {};
 const roomBackground = {};
-const roomVideoSettings = {};
 
 let ownedRoomId = null;
 let isSaveScene = false;
@@ -142,10 +144,6 @@ io.on("connection", socket => {
             roomImages[roomId] = [];
         }
 
-        if (!roomVideoSettings[roomId]) {
-            roomVideoSettings[roomId] = {};
-        }
-
         const room = rooms[roomId];
 
         if (room.password !== password) {
@@ -173,11 +171,6 @@ io.on("connection", socket => {
             "all-transforms",
             roomTransforms[roomId]
         );
-
-        socket.emit(
-            "all-video-settings",
-            roomVideoSettings[roomId]
-        ); 
 
         socket.emit(
             "all-users",
@@ -329,22 +322,6 @@ io.on("connection", socket => {
 
 
     socket.on(
-        "edited-video-settings",
-        data => {
-            if (!socket.roomId)
-                return;
-
-            roomVideoSettings[socket.roomId][data.id] = data;
-
-            socket.to(socket.roomId).emit(
-                "edited-video-settings",
-                data
-            );
-        }
-    );
-
-
-    socket.on(
         "disconnect",
         () => {
             if (!socket.roomId)
@@ -382,7 +359,6 @@ io.on("connection", socket => {
 
                 delete rooms[roomId];
                 delete roomTransforms[roomId];
-                delete roomVideoSettings[roomId];
                 delete roomImages[roomId];
                 delete roomBackground[roomId];
 
@@ -406,14 +382,9 @@ io.on("connection", socket => {
                 delete roomTransforms[roomId][socket.id];
             }
 
-            if (roomVideoSettings[roomId]) {
-                delete roomVideoSettings[roomId][socket.id];
-            }
-
             if (room.users.length === 0) {
                 delete rooms[roomId];
                 delete roomTransforms[roomId];
-                delete roomVideoSettings[roomId];
                 delete roomImages[roomId];
                 delete roomBackground[roomId];
             }
@@ -473,13 +444,6 @@ app.whenReady().then(() => {
         if (
             input.key === 'r' &&
             input.control &&
-            input.type === 'keyDown'
-        ) {
-            win.reload();
-        }
-
-        if (
-            input.key === 'F5' &&
             input.type === 'keyDown'
         ) {
             win.reload();
